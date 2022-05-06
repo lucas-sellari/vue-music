@@ -79,6 +79,10 @@ export default {
   label {
     margin-top: 15px;
   }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
 
 .pagination {

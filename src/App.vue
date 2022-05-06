@@ -20,5 +20,11 @@ export default {
 @import "./assets/styles/variables";
 @import "./assets/styles/bootstrap";
 
-
+.navbar-brand {
+  font-size: 30px;
+  font-weight: 700;
+  span {
+    color: #44d0bc;
+  }
+}
 </style>
