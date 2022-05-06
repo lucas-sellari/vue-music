@@ -1,5 +1,7 @@
 # vue-music
 
+Job test for Olery B.V. It contains a simple pagination system and the env.js file is available for testing.
+
 ## Project setup
 ```
 yarn install
