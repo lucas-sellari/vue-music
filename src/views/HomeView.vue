@@ -1,15 +1,15 @@
 <template>
   <form @submit.prevent="searchMusic" class="form">
     <div class="form-group">
+      <label for="search-field">What song are you looking for?</label>
       <input
         type="text"
         class="form-control"
-        placeholder="What song are you looking for?"
+        id="search-field"
+        placeholder="E.g.: Lana Del Rey, song name..."
         v-model="search"
       />
-      <label for="number-results"
-        >How many results per page? The maximum is 5.</label
-      >
+      <label for="number-results">How many results per page?</label>
       <input
         type="number"
         class="form-control"
