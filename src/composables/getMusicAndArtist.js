@@ -7,7 +7,6 @@ const getMusicAndArtist = () => {
   const numResults = ref(5);
   const offSet = ref(0);
   const musics = ref([]);
-  const artists = ref([]);
   const error = ref(null);
 
   const searchMusic = async () => {
@@ -31,9 +30,6 @@ const getMusicAndArtist = () => {
         .request(options)
         .then((res) => {
           musics.value = res.data.tracks.hits;
-          artists.value = res.data.artists.hits;
-          search.value = "";
-          console.log(musics.value[0].track)
         })
         .catch((err) => {
           error.value = err.message;
@@ -44,10 +40,10 @@ const getMusicAndArtist = () => {
 
   return {
     musics,
-    artists,
     error,
     search,
     numResults,
+    offSet,
     searchMusic,
   };
 };

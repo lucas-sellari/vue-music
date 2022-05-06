@@ -1,10 +1,10 @@
 <template>
-  <form @submit.prevent="searchMusic">
+  <form @submit.prevent="searchMusic" class="form">
     <div class="form-group">
       <input
         type="text"
         class="form-control"
-        placeholder="What are you looking for to listen?"
+        placeholder="What song are you looking for?"
         v-model="search"
       />
       <label for="number-results"
@@ -21,92 +21,48 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 
-  <div class="music-table">
-    <h2>Musics results</h2>
-    <div v-if="error">
-      {{ error }}
-    </div>
+  <MusicTable :musics="musics" :error="error" />
 
-    <div v-if="musics">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Title</th>
-            <th scope="col">Artist</th>
-            <th scope="col">Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="music in musics" :key="music.track.key">
-            <th>
-              <img
-                :src="music.track.share.image"
-                alt="cover art"
-                class="cover-art"
-              />
-            </th>
-            <td>{{ music.track.title }}</td>
-            <td>{{ music.track.subtitle }}</td>
-            <td><a :href="music.track.url">Shazam</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item"><a class="page-link">Previous</a></li>
-    <li class="page-item"><a class="page-link">Next</a></li>
-  </ul>
-</nav>
-
-  <div class="artist-table">
-    <h2>Artists results</h2>
-
-    <div v-if="artists">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Name</th>
-            <th scope="col">Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="artist in artists" :key="artist.artist.id">
-            <th>
-              <img
-                :src="artist.artist.avatar"
-                alt="avatar"
-                class="avatar-artist"
-              />
-            </th>
-            <td>{{ artist.artist.name }}</td>
-            <td><a :href="artist.artist.weburl">Shazam profile</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" @click="previous">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link" @click="next">Next</a></li>
+    </ul>
+  </nav>
 </template>
 
 <script>
 import getMusicAndArtist from "../composables/getMusicAndArtist";
+import MusicTable from "../components/MusicTable.vue";
 
 export default {
   name: "HomeView",
+  components: {
+    MusicTable,
+  },
   setup() {
-    const { musics, artists, error, search, numResults, searchMusic } =
+    const { musics, error, search, numResults, offSet, searchMusic } =
       getMusicAndArtist();
+
+    const next = () => {
+      offSet.value = offSet.value + numResults.value;
+      searchMusic();
+    };
+
+    const previous = () => {
+      offSet.value = offSet.value - numResults.value;
+      searchMusic();
+    };
 
     return {
       musics,
-      artists,
       error,
       search,
       numResults,
+      next,
+      previous,
       searchMusic,
     };
   },
@@ -116,4 +72,16 @@ export default {
 <style lang="scss">
 @import "../assets/styles/variables";
 @import "../assets/styles/bootstrap";
+
+.form {
+  margin: 20px;
+
+  label {
+    margin-top: 15px;
+  }
+}
+
+.pagination {
+  margin: 20px;
+}
 </style>
